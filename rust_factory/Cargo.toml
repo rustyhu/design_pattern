@@ -1,0 +1,6 @@
+[package]
+name = "rust_factory"
+version = "0.1.0"
+authors = ["rustyhu <rustyhu@hotmail.com>"]
+
+[dependencies]
