@@ -2,58 +2,71 @@
 #include <vector>
 #include <memory>
 
-#include "factory_base.h"
 
-// productA
-class ChickenHb: public ProductBase
-{
+// Product waiting for inheritance
+// what if it is abstract base?
+class ProductBase {
 public:
-    ChickenHb();
-    //virtual ~ChickenHb();
-        
+    // Avoid to use default constructor. This is like a debug tool.
+    ProductBase(): price_(0) {
+        std::cout << "Warning: initialize an empty ProductBase!\n";
+    };
+
+    ProductBase(std::string type, int price): type_(type),
+                                              price_(price) {
+        product_no_++;
+    };
+                        
+    virtual ~ProductBase() {};
+
+    std::string getType() {
+        return type_;
+    };
+
+    int getPrice() {
+        return price_;
+    };
+
+    //virtual void absFake() = 0;
+
+    static int getProductNo() {
+        return product_no_;
+    };
+
+    static void getProductTypes() {
+        std::cout << "We provide these products:\n";
+        for (auto i : product_types_) {
+            std::cout << i << ";\n";
+        }
+    };
+
+protected:
+    std::string type_;
+    int price_;
+
+    // test: were static members of pure virtual class herited by 
+    // subclass? No, all classes in heritance tree share only one
+    // static instance from this base defination.
+    static int product_no_;
+    static std::vector<std::string> product_types_;
 };
 
-// factoryA
-class ChickenHbFactory: public FactoryBase
-{
-public:
-    ChickenHbFactory();
-    //virtual ~ChickenHbFactory();
 
-    std::shared_ptr<ProductBase> create();
+// chicken
+class ChickenHb: public ProductBase {
+public:
+    ChickenHb();
 };
 
 // Fish
-class FishHb: public ProductBase
-{
+class FishHb: public ProductBase {
 public:
     FishHb();
-    //virtual ~FishHb();
-        
 };
 
-class FishHbFactory: public FactoryBase
-{
-public:
-    FishHbFactory();
-    //virtual ~FishHbFactory();
-
-    std::shared_ptr<ProductBase> create();
-};
-
-class SweetHb: public ProductBase
-{
+// Sweet
+class SweetHb: public ProductBase {
 public:
     SweetHb();
-    //virtual ~SweetHb();
-        
 };
 
-class SweetHbFactory: public FactoryBase
-{
-public:
-    SweetHbFactory();
-    //virtual ~SweetHbFactory();
-
-    std::shared_ptr<ProductBase> create();
-};

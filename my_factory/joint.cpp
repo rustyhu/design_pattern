@@ -2,10 +2,10 @@
 #include <string>
 #include <vector>
 
+#include "factory_base.h"
 #include "hamburger.h"
 
-enum HB_TYPE
-{
+enum HB_TYPE {
     CHICKEN = 1, 
     FISH = 2, 
     SWEET = 3, 
@@ -20,60 +20,59 @@ std::vector<std::string> orderMenu =
     "99. I need no more!\n",
 };
 
-int main()
-{
+int main() {
     /* single thread process ordering task */
-    // build factory!
-    ChickenHbFactory chickenFac;
-    FishHbFactory fishFac;
-    SweetHbFactory sweetFac;
+    FactoryBase<ChickenHb> chickenFac;
+    FactoryBase<FishHb> fishFac;
+    FactoryBase<SweetHb> sweetFac;
 
-    // main produce pipeline
-    FactoryBase* mainLine = nullptr;
+    // main produce pipeline(only for base class)
+    //FactoryBase* mainLine = nullptr;
 
     int iBillSum = 0;
-
     std::cout << "Begin to accept order!\n";
 
     int iAsking = 0;
-    while (1)
-    {
-        for (const std::string &strChoice : orderMenu)
-        {
+    while (1) {
+        for (auto& strChoice : orderMenu) {
             std::cout << strChoice;
         }
         std::cout << "Please make your choice: ";
         std::cin >> iAsking;
+        std::cout << std::endl;
+
         if (iAsking == static_cast<int>(NOMORE))
             break;
 
-        std::cout << "OK! Please wait for a moment...\n";
-        switch (iAsking)
-        {
+        // else
+        std::cout << "OK! Please wait...\n";
+        auto CheckBill = [&](std::unique_ptr<ProductBase> hamburger) {
+            std::cout << "Product Number: " << hamburger->getProductNo()
+                << "; Price: " << hamburger->getPrice()
+                << "\n\n";
+            iBillSum += hamburger->getPrice();
+        };
+
+        switch (iAsking) {
+            // cooking!
             case CHICKEN:
-                mainLine = &chickenFac; 
+                CheckBill(chickenFac.Create());
                 break;
             case FISH:
-                mainLine = &fishFac; 
+                CheckBill(fishFac.Create());
                 break;
             case SWEET:
-                mainLine = &sweetFac; 
+                CheckBill(sweetFac.Create());
                 break;
             default:
-                mainLine = nullptr;
                 std::cout << "Sorry! No this type of hamburger provided now!\n";
         }
 
-        // cooking!
-        if (mainLine)
-        {
-            mainLine->create();
-        }
     }
 
     std::cout << "Please check the bill: " << iBillSum << std::endl;
     std::getchar();
     std::cout << "Thank you!" << std::endl;
 
-    //return 0;
+    return 0;
 }

@@ -1,54 +1,25 @@
 #include <iostream>
-#include <string>
-#include <vector>
 
 #include "hamburger.h"
 
+
+// static
+int ProductBase::product_no_ = 0;
+std::vector<std::string> ProductBase::product_types_;
+
 // Chicken
-ChickenHb::ChickenHb()
-{
+ChickenHb::ChickenHb(): ProductBase("chicken", 8) {
+    /* could not directly init these member vars derived from base class. */
     std::cout << "Making a ChickenHb!\n";
 }
 
-ChickenHbFactory::ChickenHbFactory()
-{
-    ;
-}
-
-std::shared_ptr<ProductBase> ChickenHbFactory::create()
-{
-    return std::make_shared<ChickenHb>();
-}
-
 // Fish
-FishHb::FishHb()
-{
+FishHb::FishHb(): ProductBase("fish", 12) {
     std::cout << "Making a FishHb!\n";
 }
 
-FishHbFactory::FishHbFactory()
-{
-    ;
-}
-
-std::shared_ptr<ProductBase> FishHbFactory::create()
-{
-    return std::make_shared<FishHb>();
-}
-
 // Sweet
-SweetHb::SweetHb()
-{
+SweetHb::SweetHb(): ProductBase("sweet", 6) {
     std::cout << "Making a SweetHb!\n";
-}
-
-SweetHbFactory::SweetHbFactory()
-{
-    ;
-}
-
-std::shared_ptr<ProductBase> SweetHbFactory::create()
-{
-    return std::make_shared<SweetHb>();
 }
 

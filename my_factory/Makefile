@@ -1,15 +1,25 @@
-TARGETS= hamburger_joint
-BUILD_CMD= g++ -o $(TARGETS) -pthread -std=c++11 
 
-$(TARGETS):joint.cpp hamburger.cpp
-	$(BUILD_CMD) *.cpp
-	
-#hamburger.o: 
-#	$(BUILD_CMD) hamburger.cpp factory_base.h
+## compiler
+CC=g++
+CFLAGS=-pthread -std=c++11
 
-#joint.o: 
-#	$(BUILD_CMD) joint.cpp factory_base.h
+TARGETS=hamburger_joint
 
+## INC indicates the header file path
+INC=-I ./
+## source files
+SRCS=hamburger.cpp\
+	 joint.cpp
+OBJS=$(SRCS:.cpp=.o)
+
+## compile CMD
+%.o:%.cpp ./*.h
+	$(CC) $(INC) $(CFLAGS) -o $@ -c $<
+
+## link CMD and some others
+$(TARGETS):$(OBJS)
+	$(CC) -o $(TARGETS) $(OBJS) 
+#$(CC) -o $@ $^
 
 
 .PHONY: list
@@ -18,4 +28,4 @@ list:
 
 .PHONY: clean
 clean:
-	rm *.o $(TARGETS)
+	rm -rf $(TARGETS) $(OBJS)
