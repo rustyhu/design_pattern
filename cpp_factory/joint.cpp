@@ -54,7 +54,7 @@ int main() {
         };
 
         switch (iAsking) {
-            // cooking!
+            // start cooking!
             case CHICKEN:
                 CheckBill(chickenFac.Create());
                 break;
