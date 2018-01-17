@@ -1,5 +1,4 @@
 use std::io::stdin;
-use std::convert::From;
 
 mod factory_base;
 mod hamburger;
@@ -53,7 +52,6 @@ fn main() {
                  ham.getPrice());
     };
 
-    let mut asking = String::new();
     println!("Welcome! Begin to accept order!");
     loop {
         for i in orderMenu.iter() {
@@ -63,7 +61,7 @@ fn main() {
         println!("Please make your choice: ");
         // stdin().read_line() would execute before print!(),
         // but not with println!(). Seems a bug.
-        asking = String::new();
+        let mut asking = String::new();
         stdin().read_line(&mut asking).expect("Failed to read line");
 
         //println!("DEBUGGING: {:?}", asking);
@@ -86,6 +84,6 @@ fn main() {
     }
 
     println!("Please check the bill: {}", bill_sum);
-    stdin().read_line(&mut asking);
+    stdin().read_line(&mut String::new()).expect("Failed to read line");
     println!("Thank you!");
 }

@@ -35,7 +35,7 @@ pub struct FishHb {
 }
 
 impl Hamburger for FishHb {
-    fn new() -> FishHb {
+    fn new() -> Self {
         println!("Making a FishHb!");
         FishHb {
             type_ : String::from("fish"),
@@ -58,7 +58,7 @@ pub struct SweetHb {
 }
 
 impl Hamburger for SweetHb {
-    fn new() -> SweetHb {
+    fn new() -> Self {
         println!("Making a FishHb!");
         SweetHb {
             type_ : String::from("sweet"),
