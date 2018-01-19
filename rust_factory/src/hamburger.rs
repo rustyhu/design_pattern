@@ -1,5 +1,8 @@
-pub trait Hamburger {
+pub trait New {
     fn new() -> Self;
+}
+
+pub trait Hamburger {
     fn getType(&self) -> &str; 
     fn getPrice(&self) -> u32;
 }
@@ -11,7 +14,7 @@ pub struct ChickenHb {
 }
 
 
-impl Hamburger for ChickenHb {
+impl New for ChickenHb {
     fn new() -> Self {
         println!("Making a ChickenHb!");
         ChickenHb {
@@ -19,7 +22,8 @@ impl Hamburger for ChickenHb {
             price_: 8
         }
     }
-
+}
+impl Hamburger for ChickenHb {
     fn getType(&self) -> &str {
         &(self.type_)
     }
@@ -34,7 +38,7 @@ pub struct FishHb {
     price_: u32,
 }
 
-impl Hamburger for FishHb {
+impl New for FishHb {
     fn new() -> Self {
         println!("Making a FishHb!");
         FishHb {
@@ -42,6 +46,8 @@ impl Hamburger for FishHb {
             price_: 12
         }
     }
+}
+impl Hamburger for FishHb {
     fn getType(&self) -> &str {
         &(self.type_)
     }
@@ -57,7 +63,7 @@ pub struct SweetHb {
     price_: u32,
 }
 
-impl Hamburger for SweetHb {
+impl New for SweetHb {
     fn new() -> Self {
         println!("Making a FishHb!");
         SweetHb {
@@ -65,6 +71,8 @@ impl Hamburger for SweetHb {
             price_: 6
         }
     }
+}
+impl Hamburger for SweetHb {
     fn getType(&self) -> &str {
         &(self.type_)
     }

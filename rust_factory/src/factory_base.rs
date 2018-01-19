@@ -1,3 +1,4 @@
+use hamburger::New;
 use hamburger::Hamburger;
 
 pub struct FactoryBase<T> {
@@ -7,7 +8,7 @@ pub struct FactoryBase<T> {
 
 
 impl<T> FactoryBase<T>
-where T: Hamburger {
+where T: New + Hamburger {
     pub fn new(t: T) -> FactoryBase<T> {
         FactoryBase {
             unused_var: t
