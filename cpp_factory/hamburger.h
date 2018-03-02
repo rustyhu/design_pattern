@@ -17,7 +17,7 @@ public:
         product_no_++;
     };
                         
-    virtual ~ProductBase() {};
+    virtual ~ProductBase() = 0;
 
     std::string getType() {
         return type_;
@@ -26,8 +26,6 @@ public:
     int getPrice() {
         return price_;
     };
-
-    //virtual void absFake() = 0;
 
     static int getProductNo() {
         return product_no_;
@@ -50,7 +48,6 @@ protected:
     static int product_no_;
     static std::vector<std::string> product_types_;
 };
-
 
 // chicken
 class ChickenHb: public ProductBase {

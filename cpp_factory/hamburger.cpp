@@ -7,6 +7,8 @@
 int ProductBase::product_no_ = 0;
 std::vector<std::string> ProductBase::product_types_;
 
+ProductBase::~ProductBase() {}
+
 // Chicken
 ChickenHb::ChickenHb(): ProductBase("chicken", 8) {
     /* could not directly init these member vars derived from base class. */
