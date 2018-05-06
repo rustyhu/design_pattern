@@ -22,12 +22,10 @@ std::vector<std::string> orderMenu =
 
 int main() {
     /* single thread process ordering task */
-    FactoryBase<ChickenHb> chickenFac;
-    FactoryBase<FishHb> fishFac;
-    FactoryBase<SweetHb> sweetFac;
 
-    // main produce pipeline(only for base class)
-    //FactoryBase* mainLine = nullptr;
+    // main produce pipeline
+    //FactoryBase* mainLine = nullptr;  //(when base class used)
+    FactoryBase mainFactory;
 
     int iBillSum = 0;
     std::cout << "Begin to accept order!\n";
@@ -56,18 +54,17 @@ int main() {
         switch (iAsking) {
             // cooking!
             case CHICKEN:
-                CheckBill(chickenFac.Create());
+                CheckBill(mainFactory.Create<ChickenHb>());
                 break;
             case FISH:
-                CheckBill(fishFac.Create());
+                CheckBill(mainFactory.Create<FishHb>());
                 break;
             case SWEET:
-                CheckBill(sweetFac.Create());
+                CheckBill(mainFactory.Create<SweetHb>());
                 break;
             default:
-                std::cout << "Sorry! No this type of hamburger provided now!\n";
+                std::cout << "Sorry! No this type of hamburger provided now!\n\n";
         }
-
     }
 
     std::cout << "Please check the bill: " << iBillSum << std::endl;

@@ -14,7 +14,7 @@ public:
 
     ProductBase(std::string type, int price): type_(type),
                                               price_(price) {
-        product_no_++;
+        ++product_no_;
     };
                         
     virtual ~ProductBase() = 0;
