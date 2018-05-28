@@ -1,17 +1,11 @@
-pub struct FactoryBase();
+//pub struct FactoryBase();
+pub struct FactoryBase {}
+/* When use {}, ";" must be elimanated otherwise compile failed, while it's OK for struct (). This seems a strange compilation scenario. */
 
 use hamburger::New;
 use hamburger::Hamburger;
 
 impl FactoryBase {
-    /*
-    pub fn new(t: T) -> FactoryBase<T> {
-        FactoryBase {
-            unused_var: t
-        }
-    }
-    */
-
     pub fn create<T>() -> Box<T>
     where T: New + Hamburger {
         println!("OK! Please wait...");
