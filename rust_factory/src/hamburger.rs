@@ -3,8 +3,8 @@ pub trait New {
 }
 
 pub trait Hamburger {
-    fn getType(&self) -> &str; 
-    fn getPrice(&self) -> u32;
+    fn get_type(&self) -> &str; 
+    fn get_price(&self) -> u32;
 }
 
 
@@ -24,11 +24,11 @@ impl New for ChickenHb {
     }
 }
 impl Hamburger for ChickenHb {
-    fn getType(&self) -> &str {
+    fn get_type(&self) -> &str {
         &(self.type_)
     }
 
-    fn getPrice(&self) -> u32 {
+    fn get_price(&self) -> u32 {
         self.price_
     }
 }
@@ -48,11 +48,11 @@ impl New for FishHb {
     }
 }
 impl Hamburger for FishHb {
-    fn getType(&self) -> &str {
+    fn get_type(&self) -> &str {
         &(self.type_)
     }
 
-    fn getPrice(&self) -> u32 {
+    fn get_price(&self) -> u32 {
         self.price_
     }
 }
@@ -73,11 +73,11 @@ impl New for SweetHb {
     }
 }
 impl Hamburger for SweetHb {
-    fn getType(&self) -> &str {
+    fn get_type(&self) -> &str {
         &(self.type_)
     }
 
-    fn getPrice(&self) -> u32 {
+    fn get_price(&self) -> u32 {
         self.price_
     }
 }

@@ -29,10 +29,6 @@ impl From<u32> for HB_TYPE {
 }
 
 fn main() {
-    //let chicken_fac = FactoryBase::new(ChickenHb::new());
-    //let fish_fac = FactoryBase::new(FishHb::new());
-    //let sweet_fac = FactoryBase::new(SweetHb::new());
-
     let mut bill_sum = 0;
     let mut prod_no = 0;
 
@@ -40,23 +36,23 @@ fn main() {
 
     {
         let orderMenu: Vec<&str> = vec![
-            "1. chicken Hb\n",
-            "2. fish Hb\n",
-            "3. sweet Hb\n",
-            "0. I need no more!\n",
+            "\n1. chicken Hb",
+            "2. fish Hb",
+            "3. sweet Hb",
+            "0. I need no more!",
         ];
 
         let mut CheckBill = | ham: Box<Hamburger> | {
             prod_no += 1;
-            bill_sum += ham.getPrice();
+            bill_sum += ham.get_price();
             println!("Product Number: {}, Price: {}.", 
                      prod_no,
-                     ham.getPrice());
+                     ham.get_price());
         };
 
         loop {
             for i in orderMenu.iter() {
-                print!("{}", i);
+                println!("{}", i);
             }
 
             println!("Please make your choice: ");
@@ -65,27 +61,25 @@ fn main() {
             let mut asking = String::new();
             stdin().read_line(&mut asking).expect("Failed to read line");
 
-            //println!("DEBUGGING: {:?}", asking);
-            let i_ask = asking.trim()
-                              .parse::<u32>()
-                              .expect("Parse to u32 failed!");
-            if i_ask == (HB_TYPE::NOMORE as u32) {
-                break;
-            }
-            //else
-            println!("OK! Please wait...");
+            let i_ask = asking.trim().parse::<u32>();
+            if let Err(e) = i_ask {
+                println!("Invalid input: {}", e);
+                continue;
+            };
 
-            match HB_TYPE::from(i_ask) {
+            match HB_TYPE::from(i_ask.unwrap()) {
                 // start cooking!
-                HB_TYPE::CHICKEN => CheckBill(FactoryBase::<ChickenHb>::Create()),
-                HB_TYPE::FISH => CheckBill(FactoryBase::<FishHb>::Create()),
-                HB_TYPE::SWEET => CheckBill(FactoryBase::<SweetHb>::Create()),
+                HB_TYPE::CHICKEN => CheckBill(FactoryBase::create::<ChickenHb>()),
+                HB_TYPE::FISH => CheckBill(FactoryBase::create::<FishHb>()),
+                HB_TYPE::SWEET => CheckBill(FactoryBase::create::<SweetHb>()),
+                HB_TYPE::NOMORE => break,
                 _ => println!("Sorry! No this type of hamburger provided now!"),
             }
         }
-    } // Limit the lifetime of the mut borrow of bill_sum and such long-live vars, to eliminate the conflicts by borrow rule.
+    }
+    // Limit the lifetime of the mut borrow of bill_sum and such long-live vars, to eliminate the conflicts by borrow rule.
 
-    println!("Please check the bill: {}", bill_sum);
+    println!("Please check the bill: {}, enter to ensure:", bill_sum);
     stdin().read_line(&mut String::new()).expect("Failed to read line");
     println!("Thank you!");
 }
