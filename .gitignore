@@ -31,10 +31,11 @@
 *.out
 *.app
 
-# vim
-*.swp
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
+
+# custom: vim, scribed file
+*.swp
+draft*
