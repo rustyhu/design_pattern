@@ -12,10 +12,10 @@ class ComparatorInterface(ABC):
     def compare(a, b) -> bool:
         raise NotImplementedError
 
-class DateComparator(ComparatorInterface):
+class RecordComparator(ComparatorInterface):
     @staticmethod
     def compare(a, b):
-        return a.date > b
+        return a.record > b
     
 class IdComparator(ComparatorInterface):
     @staticmethod
@@ -30,35 +30,35 @@ class Context:
         return [e for e in elements if self._comparator.compare(e, self._standard)]
 
 class Tobj:
-    def __init__(self, name, id, date):
+    def __init__(self, name, id, record):
         self._name = name
         self._id = id
-        self._date = date
+        self._record = record
     @property
     def id(self):
         return self._id
     @property
-    def date(self):
-        return self._date
+    def record(self):
+        return self._record
 
 class StrategyTest(unittest.TestCase):
     def prepare(self):
-        # prepare for data ['date']
+        # prepare for data
         self._data = []
-        for i in range(10):
+        for i in range(-5, 5):
             self._data.append(Tobj("samename", i, i+1))
 
-    def testDate(self):
-
-        c = Context(DateComparator, 0)
-        result = c.executeStrategy(self._data)
-        self.assertEqual(result, [])
-
     def testId(self):
-        # prepare for data ['id']
+        self.prepare()
         c = Context(IdComparator, -1)
         result = c.executeStrategy(self._data)
-        self.assertEqual(result, [])
+        self.assertEqual(result, self._data[-5:])
+
+    def testRecord(self):
+        self.prepare()
+        c = Context(RecordComparator, 0)
+        result = c.executeStrategy(self._data)
+        self.assertEqual(result, self._data[-5:])
 
 if __name__ == '__main__':
     unittest.main()
