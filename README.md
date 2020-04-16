@@ -1,2 +1,3 @@
-# design_pattern
-practise 
+# Design pattern practise 
+
+Understanding is updating.

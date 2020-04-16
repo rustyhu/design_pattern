@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <iostream>
 
 
 // Product waiting for inheritance

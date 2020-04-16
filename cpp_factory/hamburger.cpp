@@ -1,7 +1,4 @@
-#include <iostream>
-
 #include "hamburger.h"
-
 
 // static
 int ProductBase::product_no_ = 0;
@@ -24,4 +21,3 @@ FishHb::FishHb(): ProductBase("fish", 12) {
 SweetHb::SweetHb(): ProductBase("sweet", 6) {
     std::cout << "Making a SweetHb!\n";
 }
-

@@ -42,7 +42,7 @@ fn main() {
             "0. I need no more!",
         ];
 
-        let mut CheckBill = | ham: Box<Hamburger> | {
+        let mut check_bill = | ham: Box<dyn Hamburger> | {
             prod_no += 1;
             bill_sum += ham.get_price();
             println!("Product Number: {}, Price: {}.", 
@@ -69,9 +69,9 @@ fn main() {
 
             match HB_TYPE::from(i_ask.unwrap()) {
                 // start cooking!
-                HB_TYPE::CHICKEN => CheckBill(FactoryBase::create::<ChickenHb>()),
-                HB_TYPE::FISH => CheckBill(FactoryBase::create::<FishHb>()),
-                HB_TYPE::SWEET => CheckBill(FactoryBase::create::<SweetHb>()),
+                HB_TYPE::CHICKEN => check_bill(FactoryBase::create::<ChickenHb>()),
+                HB_TYPE::FISH => check_bill(FactoryBase::create::<FishHb>()),
+                HB_TYPE::SWEET => check_bill(FactoryBase::create::<SweetHb>()),
                 HB_TYPE::NOMORE => break,
                 _ => println!("Sorry! No this type of hamburger provided now!"),
             }
