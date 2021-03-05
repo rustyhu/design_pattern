@@ -16,7 +16,7 @@ macro_rules! impl_hamburger {
 
         impl New for $name {
             fn new() -> Self {
-                println!("Making a ChickenHb!");
+                println!("Making a {}!", stringify!($name));
                 $name {
                     type_ : stringify!($name).to_string(),
                     price_: $price,
@@ -36,7 +36,5 @@ macro_rules! impl_hamburger {
 }
 
 impl_hamburger!(ChickenHb, 8);
-
 impl_hamburger!(FishHb, 12);
-
 impl_hamburger!(SweetHb, 6);
