@@ -3,30 +3,10 @@ use std::io::stdin;
 mod factory_base;
 mod hamburger;
 
-use factory_base::FactoryBase;
-use hamburger::ChickenHb;
-use hamburger::FishHb;
-use hamburger::Hamburger;
-use hamburger::SweetHb;
-
-enum HbType {
-    CHICKEN = 1,
-    FISH = 2,
-    SWEET = 3,
-    OTHER = 99,
-    NOMORE = 0,
-}
-impl From<u32> for HbType {
-    fn from(item: u32) -> Self {
-        match item {
-            0 => HbType::NOMORE,
-            1 => HbType::CHICKEN,
-            2 => HbType::FISH,
-            3 => HbType::SWEET,
-            _ => HbType::OTHER,
-        }
-    }
-}
+use factory_base::{FactoryBase, MenuList};
+use hamburger::{
+    ChickenHb, FishHb, SweetHb, Hamburger,
+};
 
 fn main() {
     let mut bill_sum = 0;
@@ -35,7 +15,7 @@ fn main() {
     println!("Welcome! Begin to accept order!");
 
     let order_menu: Vec<&str> = vec![
-        "\n1. chicken Hb",
+        "1. chicken Hb",
         "2. fish Hb",
         "3. sweet Hb",
         "0. I need no more!",
@@ -43,8 +23,9 @@ fn main() {
 
     let mut check_bill = |ham: Box<dyn Hamburger>| {
         prod_no += 1;
-        bill_sum += ham.get_price();
-        println!("Product Number: {}, Price: {}.", prod_no, ham.get_price());
+        let price = ham.get_price();
+        println!("Product Number: {}, Price: {}.", prod_no, price);
+        bill_sum += price;
     };
 
     loop {
@@ -57,26 +38,28 @@ fn main() {
         // but not with println!(). Refer to character device line buffering.
         let mut asking = String::new();
         stdin().read_line(&mut asking).expect("Failed to read line");
-
-        let i_ask = asking.trim().parse::<u32>();
-        if let Err(e) = i_ask {
-            println!("Invalid input: {}", e);
-            continue;
-        };
-
-        match HbType::from(i_ask.unwrap()) {
+        match asking.trim().parse::<u32>() {
             // start cooking!
-            HbType::CHICKEN => check_bill(FactoryBase::create::<ChickenHb>()),
-            HbType::FISH => check_bill(FactoryBase::create::<FishHb>()),
-            HbType::SWEET => check_bill(FactoryBase::create::<SweetHb>()),
-            HbType::NOMORE => break,
-            _ => println!("Sorry! No this type of hamburger provided now!"),
+            Ok(i_ask) if i_ask == MenuList::CHICKEN as u32 => {
+                check_bill(FactoryBase::create::<ChickenHb>());
+            }
+            Ok(i_ask) if i_ask == MenuList::FISH as u32 => {
+                check_bill(FactoryBase::create::<FishHb>());
+            }
+            Ok(i_ask) if i_ask == MenuList::SWEET as u32 => {
+                check_bill(FactoryBase::create::<SweetHb>())
+            }
+            Ok(i_ask) if i_ask == MenuList::NOMORE as u32 => break,
+            Ok(_) => println!("Sorry! This type of product not provided!"),
+            Err(e) => {
+                println!("Invalid input: {}", e);
+                continue;
+            }
         }
     }
-    // The following is a legacy problem of the rustc compiler:
-    // Limit the lifetime of the mut borrow of bill_sum and such long-live vars, to eliminate the conflicts by borrow rule.
 
     println!("Please check the bill: {}, enter to ensure:", bill_sum);
+    // read in any input to finish
     stdin()
         .read_line(&mut String::new())
         .expect("Failed to read line");

@@ -46,7 +46,11 @@ class Invoker:
 
 if __name__ == '__main__':
     invoker = Invoker()
+
+    # invoker do not need to know details about init and config of these
+    # "concrete commands"
     receiver = Receiver()
+    receiver.enableDate()
 
     invoker.setCommand(HelloCommand(receiver))
     invoker.run()

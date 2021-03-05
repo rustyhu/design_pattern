@@ -1,3 +1,5 @@
+"Personal understanding: builder pattern emphasizes on the readability and user convenience, the code structure is not quite neat."
+
 class BurgerBuilder:
     cheese = False
     pepperoni = False
