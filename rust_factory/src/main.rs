@@ -8,16 +8,14 @@ mod factory_base;
 mod hamburger;
 
 use factory_base::{FactoryBase, MenuList};
-use hamburger::{
-    ChickenHb, FishHb, SweetHb, Hamburger,
-};
+use hamburger::{ChickenHb, FishHb, Hamburger, SweetHb};
 
 struct FrontDesk {
     bill_sum: u32,
     prod_no: u32,
 }
 impl FrontDesk {
-    fn check_bill(&mut self, ham: Box<dyn Hamburger>) {
+    fn check_bill<H: Hamburger>(&mut self, ham: Box<H>) {
         self.prod_no += 1;
         let price = ham.get_price();
         println!("Product Number: {}, Price: {}.", self.prod_no, price);
@@ -26,7 +24,10 @@ impl FrontDesk {
 }
 
 fn main() {
-    let mut fdesk = FrontDesk{bill_sum: 0, prod_no:0};
+    let mut fdesk = FrontDesk {
+        bill_sum: 0,
+        prod_no: 0,
+    };
 
     println!("Welcome! What would you like to order:");
     loop {
@@ -42,17 +43,19 @@ fn main() {
         stdin().read_line(&mut asking).expect("Failed to read line");
         match asking.trim().parse::<u32>() {
             // start cooking!
-            Ok(i_ask) if i_ask == MenuList::CHICKEN as u32 => {
-                fdesk.check_bill(FactoryBase::create::<ChickenHb>());
+            Ok(i_ask) => {
+                if i_ask == MenuList::CHICKEN as u32 {
+                    fdesk.check_bill(FactoryBase::create::<ChickenHb>());
+                } else if i_ask == MenuList::FISH as u32 {
+                    fdesk.check_bill(FactoryBase::create::<FishHb>());
+                } else if i_ask == MenuList::SWEET as u32 {
+                    fdesk.check_bill(FactoryBase::create::<SweetHb>());
+                } else if i_ask == MenuList::NOMORE as u32 {
+                    break;
+                } else {
+                    println!("Sorry! This type of product not provided!");
+                }
             }
-            Ok(i_ask) if i_ask == MenuList::FISH as u32 => {
-                fdesk.check_bill(FactoryBase::create::<FishHb>());
-            }
-            Ok(i_ask) if i_ask == MenuList::SWEET as u32 => {
-                fdesk.check_bill(FactoryBase::create::<SweetHb>())
-            }
-            Ok(i_ask) if i_ask == MenuList::NOMORE as u32 => break,
-            Ok(_) => println!("Sorry! This type of product not provided!"),
             Err(e) => {
                 println!("Invalid input: {}", e);
                 continue;
@@ -60,7 +63,10 @@ fn main() {
         }
     }
 
-    println!("Please check the bill: {}, enter to ensure:", fdesk.bill_sum);
+    println!(
+        "Please check the bill: {}, enter to ensure:",
+        fdesk.bill_sum
+    );
     // read in any input to finish
     stdin()
         .read_line(&mut String::new())

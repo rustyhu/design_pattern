@@ -67,4 +67,3 @@ class SweetHb: public ProductBase {
 public:
     SweetHb();
 };
-

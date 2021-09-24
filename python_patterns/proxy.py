@@ -2,7 +2,7 @@
 Proxy pattern for an bank acount.
 """
 
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 import time
 import logging
 

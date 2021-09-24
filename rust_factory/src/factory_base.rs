@@ -31,7 +31,7 @@ pub static MENU_DESCRIPTIONS: &[(MenuList, &str)] = &[
 
 pub struct FactoryBase {}
 impl FactoryBase {
-    pub fn create<T: New + Hamburger>() -> Box<T> {
+    pub fn create<T: Hamburger>() -> Box<T> {
         println!("OK! Please wait...");
         let prod = Box::new(T::new());
         println!("A {} hamburger was made!", prod.get_type());

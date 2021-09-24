@@ -1,8 +1,8 @@
-pub trait New {
+pub trait AutoNew {
     fn new() -> Self;
 }
 
-pub trait Hamburger {
+pub trait Hamburger : AutoNew {
     fn get_type(&self) -> &str; 
     fn get_price(&self) -> u32;
 }
@@ -14,7 +14,7 @@ macro_rules! impl_hamburger {
             price_: u32,
         }
 
-        impl New for $name {
+        impl AutoNew for $name {
             fn new() -> Self {
                 println!("Making a {}!", stringify!($name));
                 $name {

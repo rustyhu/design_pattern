@@ -8,7 +8,7 @@
 				"$rustc"
 			],
 			"group": "build",
-			"label": "Rust: cargo build - rust_factory"
+			"label": "Cargo build - rust_factory"
 		},
 		{
 			"type": "cargo",
@@ -16,11 +16,8 @@
 			"problemMatcher": [
 				"$rustc"
 			],
-			"label": "Rust: cargo run - rust_factory",
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
+			"label": "Cargo run - rust_factory",
+			"group": "build",
 		}
 	]
 }

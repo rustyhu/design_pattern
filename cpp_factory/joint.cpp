@@ -31,7 +31,7 @@ int main() {
     std::cout << "Begin to accept order!\n";
 
     int iAsking = 0;
-    while (1) {
+    while (true) {
         for (auto& strChoice : orderMenu) {
             std::cout << strChoice;
         }
